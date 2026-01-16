@@ -14,13 +14,21 @@ load_dotenv()
 
 # Database connection configuration
 db_config = {
-    "host": "gateway01.ap-northeast-1.prod.aws.tidbcloud.com", # REPLACE with your TiDB Host
-    "user": "2kGWXq57L6vMrMK.root",                              # REPLACE with your TiDB User
-    "password": "adskK1GljNGdhhsQ",                       # REPLACE with your TiDB Password
-    "database": "finance_management",                               # REPLACE with the DB name you used in Step 2 (often 'test')
-    "port": 4000,                                     # TiDB uses port 4000, not 3306
-    "ssl_disabled": False                             # Enforce SSL/TLS
+    "host": "localhost",
+    "user": "root",
+    "password": "1234",  # Enter your MySQL password here
+    "database": "finance_management"
 }
+
+# Database connection configuration
+# db_config = {
+#     "host": "gateway01.ap-northeast-1.prod.aws.tidbcloud.com", # REPLACE with your TiDB Host
+#     "user": "2kGWXq57L6vMrMK.root",                              # REPLACE with your TiDB User
+#     "password": "adskK1GljNGdhhsQ",                       # REPLACE with your TiDB Password
+#     "database": "test",                               # REPLACE with the DB name you used in Step 2 (often 'test')
+#     "port": 4000,                                     # TiDB uses port 4000, not 3306
+#     "ssl_disabled": False                             # Enforce SSL/TLS
+# }
 
 # Function to create a database connection
 def create_connection():
@@ -147,8 +155,7 @@ elif option == "Add Record":
         elif table == "incomes":
             income_id = st.number_input("Income ID", min_value=1, step=1)
             
-            # --- START OF CHANGES ---
-            # 1. Fetch User Names to show instead of just IDs
+
             users_df = fetch_data("SELECT user_id, name FROM users")
             user_map = dict(zip(users_df["name"], users_df["user_id"])) if users_df is not None else {}
             selected_user_name = st.selectbox("User", list(user_map.keys())) if user_map else None
@@ -156,15 +163,11 @@ elif option == "Add Record":
 
             source = st.text_input("Source", max_chars=100)
 
-            # 2. Fetch Category Names to show instead of just IDs
             cat_df = fetch_data("SELECT category_id, name FROM categories")
-            # Create a dictionary mapping Name -> ID
             cat_map = dict(zip(cat_df["name"], cat_df["category_id"])) if cat_df is not None else {}
-            # Show the Names in the selectbox
             selected_cat_name = st.selectbox("Category", list(cat_map.keys())) if cat_map else None
-            # Retrieve the ID corresponding to the selected Name
             category_id = cat_map[selected_cat_name] if selected_cat_name else st.number_input("Category ID", min_value=1)
-            # --- END OF CHANGES ---
+            
 
             amount = st.number_input("Amount", min_value=0.0, step=0.01)
             income_date = st.date_input("Date", value=datetime.now())
@@ -177,33 +180,30 @@ elif option == "Add Record":
 
         elif table == "expenses":
             expense_id = st.number_input("Expense ID", min_value=1, step=1)
-             # --- START OF CHANGES ---
-            # 1. Fetch User Names to show instead of just IDs
+
             users_df = fetch_data("SELECT user_id, name FROM users")
             user_map = dict(zip(users_df["name"], users_df["user_id"])) if users_df is not None else {}
             selected_user_name = st.selectbox("User", list(user_map.keys())) if user_map else None
             user_id = user_map[selected_user_name] if selected_user_name else st.number_input("User ID", min_value=1)
 
-            source = st.text_input("Source", max_chars=100)
 
-            # 2. Fetch Category Names to show instead of just IDs
+
             cat_df = fetch_data("SELECT category_id, name FROM categories")
-            # Create a dictionary mapping Name -> ID
+
             cat_map = dict(zip(cat_df["name"], cat_df["category_id"])) if cat_df is not None else {}
-            # Show the Names in the selectbox
+
             selected_cat_name = st.selectbox("Category", list(cat_map.keys())) if cat_map else None
-            # Retrieve the ID corresponding to the selected Name
+
             category_id = cat_map[selected_cat_name] if selected_cat_name else st.number_input("Category ID", min_value=1)
-            # --- END OF CHANGES ---
 
             amount = st.number_input("Amount", min_value=0.0, step=0.01)
-            income_date = st.date_input("Date", value=datetime.now())
+            expense_date = st.date_input("Date", value=datetime.now())
             note = st.text_area("Note")
 
-            data = {"income_id": "expense_id", "user_id": user_id, "amount": amount}
-            required_fields = ["income_id", "user_id", "amount"]
-            query = "INSERT INTO incomes (income_id, user_id, source, category_id, amount, income_date, note) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            params = (expense_id, user_id, source, category_id, amount, income_date, note)
+            data = {"expense_id": expense_id, "user_id": user_id, "amount": amount}
+            required_fields = ["expense_id", "user_id", "amount"]
+            query = "INSERT INTO expenses (expense_id, user_id, category_id, amount, expense_date, note) VALUES (%s, %s, %s, %s, %s, %s)"
+            params = (expense_id, user_id, category_id, amount, expense_date, note)
             
         elif table == "budgets":
             budget_id = st.number_input("Budget ID (Auto-inc if 0)", min_value=0, step=1)

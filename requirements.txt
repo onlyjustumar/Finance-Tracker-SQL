@@ -1,2 +1,4 @@
+streamlit
 mysql-connector-python
-dotenv
+pandas
+python-dotenv

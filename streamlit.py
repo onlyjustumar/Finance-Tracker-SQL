@@ -20,7 +20,7 @@ load_dotenv()
 #     "database": "finance_management"
 # }
 
-Database connection configuration
+#Database connection configuration
 db_config = {
     "host": "gateway01.ap-northeast-1.prod.aws.tidbcloud.com", # REPLACE with your TiDB Host
     "user": "2kGWXq57L6vMrMK.root",                              # REPLACE with your TiDB User

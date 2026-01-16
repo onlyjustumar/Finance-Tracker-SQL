@@ -14,10 +14,12 @@ load_dotenv()
 
 # Database connection configuration
 db_config = {
-    "host": "localhost",
-    "user": "root",
-    "password": "1234",  # Enter your MySQL password here
-    "database": "finance_management"
+    "host": "gateway01.ap-northeast-1.prod.aws.tidbcloud.com", # REPLACE with your TiDB Host
+    "user": "2kGWXq57L6vMrMK.root",                              # REPLACE with your TiDB User
+    "password": "adskK1GljNGdhhsQ",                       # REPLACE with your TiDB Password
+    "database": "test",                               # REPLACE with the DB name you used in Step 2 (often 'test')
+    "port": 4000,                                     # TiDB uses port 4000, not 3306
+    "ssl_disabled": False                             # Enforce SSL/TLS
 }
 
 # Function to create a database connection

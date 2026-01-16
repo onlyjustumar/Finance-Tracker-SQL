@@ -1,0 +1,8 @@
+2025-06-26 00:06:30,021 - Updated Customer record: ('New_Name', 1234567890, 'new_email@example.com', 'New_Address1', 1)
+2025-06-26 00:06:38,742 - Deleted Customer record: ID 1
+2025-07-02 09:11:17,497 - Database connection error: 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+2025-07-02 09:12:31,092 - Database connection error: 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+2026-01-15 21:01:34,515 - Execute query error: 1062 (23000): Duplicate entry '1' for key 'categories.PRIMARY' - Query: INSERT INTO categories (category_id, user_id, name, description) VALUES (%s, %s, %s, %s) - Params: (1, 1, 'internet', '')
+2026-01-15 21:01:46,295 - Execute query error: 1062 (23000): Duplicate entry '3' for key 'categories.PRIMARY' - Query: INSERT INTO categories (category_id, user_id, name, description) VALUES (%s, %s, %s, %s) - Params: (3, 1, 'internet', '')
+2026-01-15 21:15:40,838 - Added users record: (2, 'maryam', 'maryam@.com', '1234')
+2026-01-15 22:12:42,032 - Added categories record: (4, 1, 'INTERNET', '')
